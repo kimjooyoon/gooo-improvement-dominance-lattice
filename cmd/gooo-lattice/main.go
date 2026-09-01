@@ -29,6 +29,7 @@ func compileCommand(args []string) error {
 	outPath := fs.String("out", "", "semantic IR output")
 	if err := fs.Parse(args); err != nil { return err }
 	if *sourcePath == "" || *contractPath == "" || *outPath == "" { return fmt.Errorf("compile requires -source, -contract, and -out") }
+	if err := lattice.EnsureCallerOwnedFileOutput(*outPath); err != nil { return err }
 	sourceDigest, source, err := lattice.DigestFile(*sourcePath); if err != nil { return err }
 	var contract lattice.Contract
 	if err := lattice.ReadJSON(*contractPath, &contract); err != nil { return err }
@@ -46,6 +47,7 @@ func generateCommand(args []string) error {
 	manifestPath := fs.String("manifest", "", "generated artifact manifest")
 	if err := fs.Parse(args); err != nil { return err }
 	if *irPath == "" || *fixturePath == "" || *outDir == "" || *manifestPath == "" { return fmt.Errorf("generate requires -ir, -fixture, -out-dir, and -manifest") }
+	if err := lattice.EnsureCallerOwnedFileOutput(*manifestPath); err != nil { return err }
 	var ir lattice.SemanticIR; if err := lattice.ReadJSON(*irPath, &ir); err != nil { return err }
 	var fixture lattice.Fixture; if err := lattice.ReadJSON(*fixturePath, &fixture); err != nil { return err }
 	binding, err := lattice.GenerateEvaluator(ir, fixture, *outDir); if err != nil { return err }
@@ -61,6 +63,7 @@ func executeCommand(args []string) error {
 	outPath := fs.String("out", "", "decision receipt output")
 	if err := fs.Parse(args); err != nil { return err }
 	if *irPath == "" || *fixturePath == "" || *contractPath == "" || *generatedGoPath == "" || *outPath == "" { return fmt.Errorf("execute requires -ir, -fixture, -contract, -generated-go, and -out") }
+	if err := lattice.EnsureCallerOwnedFileOutput(*outPath); err != nil { return err }
 	var ir lattice.SemanticIR; if err := lattice.ReadJSON(*irPath, &ir); err != nil { return err }
 	var fixture lattice.Fixture; if err := lattice.ReadJSON(*fixturePath, &fixture); err != nil { return err }
 	var contract lattice.Contract; if err := lattice.ReadJSON(*contractPath, &contract); err != nil { return err }
@@ -87,6 +90,8 @@ func dossierCommand(args []string) error {
 	outMarkdownPath := fs.String("out-md", "", "human dossier")
 	if err := fs.Parse(args); err != nil { return err }
 	if *contractPath == "" || *summaryPath == "" || *runtimePath == "" || *outJSONPath == "" || *outMarkdownPath == "" { return fmt.Errorf("dossier requires -contract, -summary, -runtime, -out-json, and -out-md") }
+	if err := lattice.EnsureCallerOwnedFileOutput(*outJSONPath); err != nil { return err }
+	if err := lattice.EnsureCallerOwnedFileOutput(*outMarkdownPath); err != nil { return err }
 	var contract lattice.Contract; if err := lattice.ReadJSON(*contractPath, &contract); err != nil { return err }
 	var summary lattice.Summary; if err := lattice.ReadJSON(*summaryPath, &summary); err != nil { return err }
 	var runtime lattice.RuntimeMetrics; if err := lattice.ReadJSON(*runtimePath, &runtime); err != nil { return err }

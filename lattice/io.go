@@ -77,6 +77,22 @@ func EnsureCallerOwnedOutput(path string) error {
 	return nil
 }
 
+func EnsureCallerOwnedFileOutput(path string) error {
+	if path == "" || !filepath.IsAbs(path) { return fmt.Errorf("output file must be an absolute caller-owned path") }
+	parent := filepath.Dir(path)
+	info, err := os.Stat(parent)
+	if err != nil { return fmt.Errorf("output parent: %w", err) }
+	if !info.IsDir() { return fmt.Errorf("output parent is not a directory") }
+	resolved, err := filepath.EvalSymlinks(parent)
+	if err != nil { return err }
+	working, err := os.Getwd()
+	if err != nil { return err }
+	working, err = filepath.EvalSymlinks(working)
+	if err != nil { return err }
+	if root := findGitRoot(working); root != "" && pathWithin(root, resolved) { return fmt.Errorf("output file may not be inside input repository") }
+	return nil
+}
+
 func findGitRoot(start string) string {
 	for {
 		info, err := os.Stat(filepath.Join(start, ".git"))
