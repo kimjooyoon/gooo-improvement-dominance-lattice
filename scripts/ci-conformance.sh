@@ -28,7 +28,7 @@ SOURCES=(
   examples/dominance-lattice-incomparable.gooo
 )
 
-mkdir -p "$EVIDENCE/irs" "$EVIDENCE/cases"
+mkdir -p "$WORK/irs" "$EVIDENCE/irs" "$EVIDENCE/cases"
 declare -A PHASE_WALL=([compile]=0 [build]=0 [test]=0 [conformance]=0 [integration]=0)
 declare -A PHASE_RSS=([compile]=0 [build]=0 [test]=0 [conformance]=0 [integration]=0)
 
