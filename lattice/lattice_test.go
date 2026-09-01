@@ -28,3 +28,18 @@ func TestCandidateDecisionPreservesVectorAndUnknownCoordinates(t *testing.T) {
 	if decision.State != StateUnknown || len(decision.Unknown) != 1 { t.Fatalf("missing proof did not fail closed: %+v", decision) }
 	if err := ValidateUnknown(decision.Unknown[0]); err != nil { t.Fatal(err) }
 }
+
+func TestTradeoffEmitsAllUnknownCoordinates(t *testing.T) {
+	minusOne, plusOne := -1, 1
+	ir := SemanticIR{Schema: IRSchema, Indicators: []IRIndicator{
+		{IndicatorDecl: IndicatorDecl{ID: "fast", Direction: DirectionMinimize, ClaimedRelation: "IMPROVED", Role: RoleObjective, Guardrail: GuardrailNone, ProofChoice: ProofFoundation, Dependency: "none", Authority: "observe", Precedence: 1}},
+		{IndicatorDecl: IndicatorDecl{ID: "memory", Direction: DirectionMinimize, ClaimedRelation: "REGRESSED", Role: RoleObjective, Guardrail: GuardrailNone, ProofChoice: ProofCoherence, Dependency: "none", Authority: "observe", Precedence: 2}},
+	}}
+	decision := evaluateCandidate(ir, CandidateObservation{CandidateID: "c", Indicators: map[string]MetricPair{
+		"fast": MetricPair{Before: new(int), After: &minusOne},
+		"memory": MetricPair{Before: new(int), After: &plusOne},
+	}})
+	if decision.State != StateUnknown || decision.Relation != RelationIncomparable || decision.Action != ActionHold { t.Fatalf("trade-off was not held: %+v", decision) }
+	if len(decision.Unknown) != 1 { t.Fatalf("trade-off coordinate count: got %d", len(decision.Unknown)) }
+	if err := ValidateUnknown(decision.Unknown[0]); err != nil { t.Fatal(err) }
+}

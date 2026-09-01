@@ -103,11 +103,13 @@ func evaluateCandidate(ir SemanticIR, candidate CandidateObservation) CandidateD
 	if objectiveRegressed {
 		decision.State, decision.Relation, decision.Action = StateUnknown, RelationIncomparable, ActionHold
 		decision.Reason = "INCOMPARABLE/UNKNOWN: an explicit objective regresses; no scalar, average, weighted sum, or percentage resolves the trade-off."
+		decision.Unknown = append(decision.Unknown, UnknownDetail{Stage: "execute", Step: "partial-order-dominance", Reason: decision.Reason, UnknownClass: "OBJECTIVE_TRADEOFF", NextOperation: "declare an explicit budget or priority", BlockedBy: []string{"objective-vector"}})
 		return decision
 	}
 	if !objectiveImproved {
 		decision.State, decision.Relation, decision.Action = StateUnknown, RelationUnknown, ActionHold
 		decision.Reason = "UNKNOWN: no explicit objective improved, so dominance is not established."
+		decision.Unknown = append(decision.Unknown, UnknownDetail{Stage: "execute", Step: "objective-dominance", Reason: decision.Reason, UnknownClass: "NO_OBJECTIVE_IMPROVEMENT", NextOperation: "supply an explicit improved objective", BlockedBy: []string{"objective-vector"}})
 		return decision
 	}
 	decision.Reason = "DOMINATES/CLOSED: every hard guardrail is satisfied, at least one explicit objective improves, and no explicit objective regresses."
