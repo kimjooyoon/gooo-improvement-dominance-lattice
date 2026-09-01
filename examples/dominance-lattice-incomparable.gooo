@@ -1,0 +1,10 @@
+# Two explicit objectives trade off: build wall improves while test RSS regresses.
+program gooo-improvement-dominance-lattice v1
+candidate gooo-proof-aware-test-reuse-v0.1.2
+
+indicator build_wall_ms before=127 after=119 direction=minimize claimed=IMPROVED role=objective guardrail=none budget=none proof=FOUNDATION dependency=none authority=observe precedence=10
+indicator build_rss_kib before=65500 after=65500 direction=minimize claimed=UNCHANGED role=observation guardrail=none budget=none proof=COHERENCE dependency=build_wall_ms authority=observe precedence=20
+indicator test_wall_ms before=5 after=5 direction=exact claimed=UNCHANGED role=objective guardrail=none budget=none proof=COHERENCE dependency=build_wall_ms authority=observe precedence=30
+indicator test_rss_kib before=3480 after=3500 direction=minimize claimed=REGRESSED role=objective guardrail=none budget=none proof=REGRESSION dependency=test_wall_ms authority=observe precedence=40
+indicator selected_executed before=1 after=0 direction=minimize claimed=IMPROVED role=objective guardrail=none budget=none proof=REGRESSION dependency=test_rss_kib authority=observe precedence=50
+indicator reused before=0 after=1 direction=maximize claimed=IMPROVED role=objective guardrail=none budget=none proof=FOUNDATION dependency=selected_executed authority=observe precedence=60

@@ -1,0 +1,5 @@
+{
+  "schema": "gooo/improvement-dominance-lattice/release-history/v1",
+  "release_policy": "immutable tag, release, assets, and evidence digests",
+  "failed_runs_and_tags_preserved": true
+}

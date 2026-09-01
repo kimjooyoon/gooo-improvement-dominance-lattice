@@ -1,0 +1,19 @@
+{
+  "schema": "gooo/improvement-dominance-lattice/contract/v1",
+  "contract_id": "gooo-improvement-dominance-lattice-v1",
+  "indicator_ids": [
+    "build_wall_ms",
+    "build_rss_kib",
+    "test_wall_ms",
+    "test_rss_kib",
+    "selected_executed",
+    "reused"
+  ],
+  "proof_choices": ["FOUNDATION", "COHERENCE", "REGRESSION"],
+  "directions": ["minimize", "maximize", "exact"],
+  "observation_states": ["IMPROVED", "UNCHANGED", "REGRESSED", "UNKNOWN"],
+  "state_precedence": ["REFUTED", "UNKNOWN", "CLOSED"],
+  "unknown_fields": ["stage", "step", "reason", "unknown_class", "next_operation", "blocked_by"],
+  "forbidden_outputs": ["overall_score", "average", "weighted_sum", "percentage", "scalar_state"],
+  "authority_zero": true
+}

@@ -1,0 +1,21 @@
+{
+  "schema": "gooo/improvement-dominance-lattice/fixture/v1",
+  "case_id": "unknown-top-level",
+  "description": "A null after observation propagates UNKNOWN to the top-level decision with six operational coordinates.",
+  "class": "unknown",
+  "source": "examples/dominance-lattice.gooo",
+  "candidate": {
+    "candidate_id": "gooo-proof-aware-test-reuse-v0.1.2",
+    "indicators": {
+      "build_wall_ms": {"before": 127, "after": 119},
+      "build_rss_kib": {"before": 65500, "after": 67576},
+      "test_wall_ms": {"before": 5, "after": 5},
+      "test_rss_kib": {"before": 3480, "after": null},
+      "selected_executed": {"before": 1, "after": 0},
+      "reused": {"before": 0, "after": 1}
+    },
+    "authority": {"runtime_input_reads": 0, "repository_writes": 0, "apply": 0, "commit": 0, "merge": 0, "tag": 0, "release": 0, "cross_project_required_gates": 0},
+    "counterexample": false
+  },
+  "expected": {"state": "UNKNOWN", "relation": "UNKNOWN", "action": "HOLD"}
+}

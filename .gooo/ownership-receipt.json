@@ -1,0 +1,12 @@
+{
+  "schema": "gooo/improvement-dominance-lattice/ownership/v1",
+  "repository": "kimjooyoon/gooo-improvement-dominance-lattice",
+  "runtime_input_authority": 0,
+  "repository_write_authority": 0,
+  "apply_authority": 0,
+  "commit_authority": 0,
+  "merge_authority": 0,
+  "tag_authority": 0,
+  "release_authority": 0,
+  "caller_owned_output_only": true
+}

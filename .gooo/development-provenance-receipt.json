@@ -1,0 +1,8 @@
+{
+  "schema": "gooo/improvement-dominance-lattice/development-provenance/v1",
+  "workflow": "PR-first",
+  "verification": "GitHub Actions only",
+  "go_version": "1.27",
+  "cross_project_required_gates": 0,
+  "local_validation": "PROHIBITED"
+}
