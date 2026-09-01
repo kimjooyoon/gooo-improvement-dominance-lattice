@@ -51,7 +51,7 @@ run_timed() {
 }
 
 run_timed build build go build -trimpath -o "$BIN" ./cmd/gooo-lattice
-run_timed test test bash -c 'go test -json ./... > "$1"' _ "$WORK/test-events.json"
+run_timed test test bash -c 'go test -json ./... > "$1"; status=$?; tee /dev/stderr < "$1" >/dev/null; exit "$status"' _ "$WORK/test-events.json"
 TESTS_EXECUTED=$(jq -s '[.[] | select(.Action == "pass" and .Test != null)] | length' "$WORK/test-events.json")
 TESTS_REUSED=$(jq -s '[.[] | select(.Action == "pass" and .Cached == true)] | length' "$WORK/test-events.json")
 TESTS_SKIPPED=$(jq -s '[.[] | select(.Action == "skip" and .Test != null)] | length' "$WORK/test-events.json")
