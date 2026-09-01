@@ -26,7 +26,7 @@ func BuildDossier(summary Summary, runtime RuntimeMetrics, contract Contract) (D
 		case CaseUnknown:
 			if receipt.Candidate.State != StateUnknown || receipt.Candidate.Action != ActionHold || (receipt.Candidate.Relation != RelationIncomparable && receipt.Candidate.Relation != RelationUnknown) { return Dossier{}, fmt.Errorf("unknown case %q is not an UNKNOWN hold", receipt.CaseID) }
 		case CaseRefuted:
-			if receipt.Candidate.State != StateRefuted || receipt.Candidate.Action != ActionReject { return Dossier{}, fmt.Errorf("refuted case %q is not rejected") }
+			if receipt.Candidate.State != StateRefuted || receipt.Candidate.Action != ActionReject { return Dossier{}, fmt.Errorf("refuted case %q is not rejected", receipt.CaseID) }
 		}
 	}
 	if counts[string(CaseNormal)] != 3 || counts[string(CaseUnknown)] != 3 || counts[string(CaseRefuted)] != 3 { return Dossier{}, fmt.Errorf("case denominator must be normal=3 unknown=3 refuted=3") }

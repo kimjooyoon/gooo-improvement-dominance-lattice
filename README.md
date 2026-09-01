@@ -57,6 +57,8 @@ SHA-bound artifact. The release process is PR-first: merge to `main`, create a
 fresh immutable tag, publish the evidence bundle and digest manifest, and never
 rewrite the tag or release.
 
+Release boundary: [docs/release-v0.1.0.md](docs/release-v0.1.0.md).
+
 ## Inventory
 
 ```text

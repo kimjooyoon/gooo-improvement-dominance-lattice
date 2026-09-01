@@ -9,7 +9,7 @@ import (
 )
 
 func GenerateEvaluator(ir SemanticIR, fixture Fixture, outDir string) (ArtifactBinding, error) {
-	if ir.Schema != IRScheme { return ArtifactBinding{}, fmt.Errorf("unexpected semantic IR schema %q", ir.Schema) }
+	if ir.Schema != IRSchema { return ArtifactBinding{}, fmt.Errorf("unexpected semantic IR schema %q", ir.Schema) }
 	if err := EnsureCallerOwnedOutput(outDir); err != nil { return ArtifactBinding{}, err }
 	if err := ValidateFixture(fixture, ir); err != nil { return ArtifactBinding{}, err }
 	var b strings.Builder

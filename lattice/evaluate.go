@@ -19,7 +19,7 @@ func ValidateFixture(fixture Fixture, ir SemanticIR) error {
 
 func EvaluateFixture(ir SemanticIR, fixture Fixture, contract Contract, sourceBinding, irBinding, generatedBinding, contractBinding ArtifactBinding) (DecisionReceipt, error) {
 	if err := ValidateContract(contract); err != nil { return DecisionReceipt{}, err }
-	if ir.Schema != IRScheme || ir.ContractDigest != contractBinding.Digest { return DecisionReceipt{}, fmt.Errorf("semantic IR is not bound to the contract") }
+	if ir.Schema != IRSchema || ir.ContractDigest != contractBinding.Digest { return DecisionReceipt{}, fmt.Errorf("semantic IR is not bound to the contract") }
 	if err := ValidateFixture(fixture, ir); err != nil { return DecisionReceipt{}, err }
 
 	decision := evaluateCandidate(ir, fixture.Candidate)

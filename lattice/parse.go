@@ -109,7 +109,7 @@ func Compile(source, sourcePath string, contract Contract, contractDigest string
 		if indicator.Dependency != "none" && !byID[indicator.Dependency] { return SemanticIR{}, fmt.Errorf("indicator %q depends on unknown indicator %q", indicator.ID, indicator.Dependency) }
 	}
 	sourceDigest := DigestBytes([]byte(source))
-	ir := SemanticIR{Schema: IRScheme, SourcePath: sourcePath, SourceDigest: sourceDigest, ContractDigest: contractDigest, Program: program.Name}
+	ir := SemanticIR{Schema: IRSchema, SourcePath: sourcePath, SourceDigest: sourceDigest, ContractDigest: contractDigest, Program: program.Name}
 	for _, indicator := range program.Indicators {
 		ir.Indicators = append(ir.Indicators, IRIndicator{IndicatorDecl: indicator, SourceLine: sourceLineForIndicator(source, indicator.ID)})
 		ir.Lattice.Nodes = append(ir.Lattice.Nodes, LatticeNode{ID: indicator.ID, DependsOn: []string{indicator.Dependency}, Precedence: indicator.Precedence, ProofChoice: indicator.ProofChoice})
