@@ -26,6 +26,6 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: dominance-lattice-evidence-${{ github.sha }}
-          path: /tmp/gooo-improvement-dominance-lattice.*/evidence
+          path: ${{ runner.temp }}/gooo-improvement-dominance-lattice.*/evidence
           if-no-files-found: error
           retention-days: 90

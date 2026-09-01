@@ -19,7 +19,7 @@ func TestParseFailsClosedForProofChoiceErrors(t *testing.T) {
 }
 
 func TestCandidateDecisionPreservesVectorAndUnknownCoordinates(t *testing.T) {
-	ir := SemanticIR{Schema: IRScheme, Indicators: []IRIndicator{{IndicatorDecl: IndicatorDecl{ID: "x", Direction: DirectionMinimize, ClaimedRelation: "IMPROVED", Role: RoleObjective, Guardrail: GuardrailNone, ProofChoice: ProofFoundation, Dependency: "none", Authority: "observe", Precedence: 1}}}}
+	ir := SemanticIR{Schema: IRSchema, Indicators: []IRIndicator{{IndicatorDecl: IndicatorDecl{ID: "x", Direction: DirectionMinimize, ClaimedRelation: "IMPROVED", Role: RoleObjective, Guardrail: GuardrailNone, ProofChoice: ProofFoundation, Dependency: "none", Authority: "observe", Precedence: 1}}}}
 	before, after := 4, 2
 	decision := evaluateCandidate(ir, CandidateObservation{CandidateID: "c", Indicators: map[string]MetricPair{"x": MetricPair{Before: &before, After: &after}}})
 	if decision.State != StateClosed || decision.Relation != RelationDominates || decision.Action != ActionSelect { t.Fatalf("unexpected closed decision: %+v", decision) }
